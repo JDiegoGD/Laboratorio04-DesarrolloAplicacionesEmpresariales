@@ -1,0 +1,35 @@
+<h1>{{ libro.titulo }}</h1>
+<p>ISBN: {{ libro.isbn }} | Precio: {{ libro.precio }}</p>
+
+<!-- ACCESO DIRECTO: Libro -> Autor (FK declarada en Libro) -->
+<h2>Autor</h2>
+{% if libro.autor %}
+  <p>{{ libro.autor.nombre_completo }} ({{ libro.autor.nacionalidad }})</p>
+{% else %}
+  <p>Sin autor asignado.</p>
+{% endif %}
+
+<!-- ACCESO DIRECTO vía related_name: Libro -> FichaTecnica (O2O
+     declarado en FichaTecnica, pero expuesto en Libro gracias a
+     related_name="ficha_tecnica") -->
+<h2>Ficha técnica</h2>
+{% if libro.ficha_tecnica %}
+  <p>{{ libro.ficha_tecnica.sinopsis }}</p>
+  <p>{{ libro.ficha_tecnica.numero_paginas }} páginas — {{ libro.ficha_tecnica.idioma_original }}</p>
+{% else %}
+  <p>Este libro todavía no tiene ficha técnica.</p>
+{% endif %}
+
+<!-- RECORRIDO DEL MODELO INTERMEDIO: Libro -> Prestamo -> Lector -->
+<h2>Historial de préstamos</h2>
+<ul>
+  {% for prestamo in libro.prestamos.all %}
+    <li>
+      {{ prestamo.lector.nombre }} — {{ prestamo.estado }}
+      (prestado: {{ prestamo.fecha_prestamo }},
+       vence: {{ prestamo.fecha_devolucion_esperada }})
+    </li>
+  {% empty %}
+    <li>Sin préstamos registrados.</li>
+  {% endfor %}
+</ul>

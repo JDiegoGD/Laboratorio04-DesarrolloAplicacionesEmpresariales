@@ -1,0 +1,21 @@
+<h1>Catálogo de libros</h1>
+
+{% for libro in libros %}
+  <div>
+    <h2><a href="{% url 'biblioteca:libro_detail' libro.pk %}">{{ libro.titulo }}</a></h2>
+
+    <!-- ACCESO DIRECTO FK, ya resuelto por select_related en la vista -->
+    <p>Autor: {{ libro.autor.nombre_completo|default:"—" }}</p>
+
+    <!-- RECORRIDO DEL MODELO INTERMEDIO, ya resuelto por prefetch_related -->
+    <p>Lectores que lo han pedido:</p>
+    <ul>
+      {% for prestamo in libro.prestamos.all %}
+        <li>{{ prestamo.lector.nombre }} ({{ prestamo.estado }})</li>
+      {% empty %}
+        <li>Ninguno todavía.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <hr>
+{% endfor %}

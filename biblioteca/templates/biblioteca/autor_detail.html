@@ -1,0 +1,14 @@
+<h1>{{ autor.nombre_completo }}</h1>
+<p>{{ autor.nacionalidad }}</p>
+
+<!-- ACCESO INVERSO: Autor -> Libros, usando el related_name="libros"
+     definido en Libro.autor. Sin related_name, esto habría sido
+     autor.libro_set.all() -->
+<h2>Libros de este autor</h2>
+<ul>
+  {% for libro in autor.libros.all %}
+    <li>{{ libro.titulo }} ({{ libro.fecha_publicacion }})</li>
+  {% empty %}
+    <li>Este autor todavía no tiene libros registrados.</li>
+  {% endfor %}
+</ul>
