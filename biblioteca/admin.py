@@ -2,10 +2,17 @@ from django.contrib import admin
 from .models import Libro, Autor, FichaTecnica, Lector, Prestamo
 
 
+class FichaTecnicaInline(admin.StackedInline):
+    model = FichaTecnica
+    can_delete = True
+    extra = 0
+
+
 @admin.register(Libro)
 class LibroAdmin(admin.ModelAdmin):
     list_display = ("titulo", "autor", "isbn", "precio", "disponible")
     search_fields = ("titulo", "isbn")
+    inlines = [FichaTecnicaInline]
 
 
 @admin.register(Prestamo)
@@ -16,5 +23,4 @@ class PrestamoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Autor)
-admin.site.register(FichaTecnica)
 admin.site.register(Lector)
