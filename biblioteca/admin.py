@@ -8,11 +8,24 @@ class FichaTecnicaInline(admin.StackedInline):
     extra = 0
 
 
+class PrestamoInline(admin.TabularInline):
+    model = Prestamo
+    extra = 0
+    fields = (
+        "lector",
+        "fecha_prestamo",
+        "fecha_devolucion_esperada",
+        "fecha_devolucion_real",
+        "estado",
+    )
+    readonly_fields = ("fecha_prestamo",)
+
+
 @admin.register(Libro)
 class LibroAdmin(admin.ModelAdmin):
     list_display = ("titulo", "autor", "isbn", "precio", "disponible")
     search_fields = ("titulo", "isbn")
-    inlines = [FichaTecnicaInline]
+    inlines = [FichaTecnicaInline, PrestamoInline]
 
 
 @admin.register(Prestamo)
