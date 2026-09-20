@@ -12,6 +12,7 @@ class LibroAdmin(admin.ModelAdmin):
 class PrestamoAdmin(admin.ModelAdmin):
     list_display = ("libro", "lector", "fecha_prestamo", "fecha_devolucion_esperada", "estado")
     search_fields = ("libro__titulo", "lector__nombre")
+    list_filter = ("estado", "fecha_prestamo")
 
 
 admin.site.register(Autor)
